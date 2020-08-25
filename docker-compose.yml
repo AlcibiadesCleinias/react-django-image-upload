@@ -1,0 +1,67 @@
+version: '3.7'
+
+services:
+
+  web_debug:
+    build: ./django-app
+    # command: tail -f /dev/null
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./django-app/:/usr/src/app/
+    ports:
+      - 8000:8000
+      - 587:587
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db_debug
+      # - redis
+
+  db_debug:
+    image: postgres
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+
+  # redis:
+  #   image: "redis:alpine"
+  #   volumes:
+  #     - redis_data_debug:/data
+  #
+  # celery:
+  #   build: ./django-app
+  #   command: celery -A backend worker -l info
+  #   volumes:
+  #     - ./django-app/:/usr/src/app/
+  #   env_file:
+  #     - ./.env.dev
+  #   depends_on:
+  #     - db_debug
+  #     - redis
+
+  # adminer:
+  #   image: adminer:latest
+  #   ports:
+  #     - 8080:8080
+  #   environment:
+  #     ADMINER_DEFAULT_DB_DRIVER: pgsql
+  #     ADMINER_DEFAULT_DB_HOST: db_debug
+  #     ADMINER_DEFAULT_DB_NAME: hello_django_dev
+  #   depends_on:
+  #     - db_debug
+
+  # celery-beat:
+  #   build: ./django-app
+  #   command: celery -A backend beat -l info
+  #   volumes:
+  #     - ./django-app/:/usr/src/app/
+  #   depends_on:
+  #     - db_debug
+  #     - redis
+
+volumes:
+  postgres_data_test:
+  redis_data_debug:
