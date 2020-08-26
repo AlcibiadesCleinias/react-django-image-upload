@@ -10,8 +10,13 @@ class PostView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request, *args, **kwargs):
+
+        print(request.COOKIES)
+
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
+        request.session['AAAA'] = 'HOLA'
+        print(request.session.get('AAAA'))
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
