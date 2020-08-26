@@ -16,6 +16,7 @@ class PostView(APIView):
 
     def post(self, request, *args, **kwargs):
         posts_serializer = PostSerializer(data=request.data)
+        print(request.data)
         if posts_serializer.is_valid():
             posts_serializer.save()
             return Response(posts_serializer.data, status=status.HTTP_201_CREATED)
