@@ -23,6 +23,7 @@ const UploadFiles = () => {
     setCurrentFile(currentFile);
 
     UploadService.upload(currentFile, (event) => {
+      // console.log(event);
       setProgress(Math.round((100 * event.loaded) / event.total));
     })
       .then((response) => {
@@ -31,6 +32,7 @@ const UploadFiles = () => {
       })
       .then((files) => {
         setFileInfos(files.data);
+        setMessage("Uploaded successfully");
       })
       .catch(() => {
         setProgress(0);
