@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UploadService from "../../services/FileUploadService";
 import FilesListCard from "../../components/FileList";
+import { Image,Container,Row,Col } from 'react-bootstrap'
 
 import { Redirect } from "react-router-dom";
 
@@ -13,8 +14,18 @@ const UploadFiles = () => {
 
   const [fileInfos, setFileInfos] = useState([]);
 
+  const [imagePreviewUrl, setImagePreviewUrl] = useState('');
+
   const selectFile = (event) => {
   setSelectedFiles(event.target.files);
+
+  let reader = new FileReader();
+  let file = event.target.files[0];
+
+  reader.onloadend = () => {
+    setImagePreviewUrl(reader.result);
+  }
+  reader.readAsDataURL(file)
   };
 
   const upload = () => {
@@ -52,6 +63,13 @@ const UploadFiles = () => {
   }, []);
 
   // if (progress === 100) {return <Redirect to="/result" />}
+  let $imagePreview = null;
+   if (imagePreviewUrl) {
+     $imagePreview = (<Image src={imagePreviewUrl} thumbnail />);
+   } else {
+     $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
+   }
+
 
   return (
     <div>
@@ -85,6 +103,10 @@ const UploadFiles = () => {
       <div className="alert alert-light" role="alert">
         {message}
       </div>
+
+      <Col xs={12} md={12}>
+        {$imagePreview}
+      </Col>
 
       {(fileInfos.length > 0) && (<FilesListCard filesinfo={fileInfos}/>)}
 
