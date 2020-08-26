@@ -72,45 +72,55 @@ const UploadFiles = () => {
 
 
   return (
-    <div>
-      {currentFile && (
-        <div className="progress">
-          <div
-            className="progress-bar progress-bar-info progress-bar-striped"
-            role="progressbar"
-            aria-valuenow={progress}
-            aria-valuemin="0"
-            aria-valuemax="100"
-            style={{ width: progress + "%" }}
-          >
-            {progress}%
-          </div>
+    <Container>
+      <Row>
+
+      <Col xs={12} md={12}>
+          {currentFile && (
+            <div className="progress">
+              <div
+                className="progress-bar progress-bar-info progress-bar-striped"
+                role="progressbar"
+                aria-valuenow={progress}
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style={{ width: progress + "%" }}
+              >
+                {progress}%
+              </div>
+            </div>
+          )}
+      </Col>
+
+      <Col xs={12} md={12}>
+        <label className="btn btn-default">
+          <input type="file" accept="image/png, image/jpeg" onChange={selectFile} />
+        </label>
+
+        <button
+          className="btn btn-success"
+          disabled={!selectedFiles}
+          onClick={upload}
+        >
+          Upload
+        </button>
+      </Col>
+
+      <Col xs={12} md={12}>
+        <div className="alert alert-light" role="alert">
+          {message}
         </div>
-      )}
-
-      <label className="btn btn-default">
-        <input type="file" accept="image/png, image/jpeg" onChange={selectFile} />
-      </label>
-
-      <button
-        className="btn btn-success"
-        disabled={!selectedFiles}
-        onClick={upload}
-      >
-        Upload
-      </button>
-
-      <div className="alert alert-light" role="alert">
-        {message}
-      </div>
+      </Col>
 
       <Col xs={12} md={12}>
         {$imagePreview}
       </Col>
 
-      {(fileInfos.length > 0) && (<FilesListCard filesinfo={fileInfos}/>)}
-
-    </div>
+      <Col xs={12} md={12}>
+        {(fileInfos.length > 0) && (<FilesListCard filesinfo={fileInfos}/>)}
+      </Col>
+    </Row>
+    </Container>
   );
 };
 
