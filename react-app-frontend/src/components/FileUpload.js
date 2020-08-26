@@ -66,7 +66,7 @@ const UploadFiles = () => {
       )}
 
       <label className="btn btn-default">
-        <input type="file" onChange={selectFile} />
+        <input type="file" accept="image/png, image/jpeg" onChange={selectFile} />
       </label>
 
       <button
