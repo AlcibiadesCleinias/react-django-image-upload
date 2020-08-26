@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import UploadService from "../../services/FileUploadService";
 import FilesListCard from "../../components/FileList";
 
+import { Redirect } from "react-router-dom";
+
 const UploadFiles = () => {
 
   const [selectedFiles, setSelectedFiles] = useState(undefined);
@@ -48,6 +50,8 @@ const UploadFiles = () => {
       // console.log(response.data);
     });
   }, []);
+
+  // if (progress === 100) {return <Redirect to="/result" />}
 
   return (
     <div>
