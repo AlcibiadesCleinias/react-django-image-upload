@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import UploadService from "../services/FileUploadService";
-
-const API_URL = 'http://localhost:8000';
+import UploadService from "../../services/FileUploadService";
+import FilesListCard from "../../components/FileList";
 
 const UploadFiles = () => {
 
@@ -83,17 +82,8 @@ const UploadFiles = () => {
         {message}
       </div>
 
-      <div className="card">
-        <div className="card-header">List of Files</div>
-        <ul className="list-group list-group-flush">
-          {fileInfos &&
-            fileInfos.map((file, index) => (
-              <li className="list-group-item" key={index}>
-                <a href={API_URL + file.image}>{file.title}</a>
-              </li>
-            ))}
-        </ul>
-      </div>
+      {(fileInfos.length > 0) && (<FilesListCard filesinfo={fileInfos}/>)}
+
     </div>
   );
 };

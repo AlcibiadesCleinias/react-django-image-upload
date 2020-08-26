@@ -1,19 +1,47 @@
 import React from "react";
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 // import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import FileUpload from "./components/FileUpload";
+import FileUpload from "./views/UploadView/UploadView";
+import ResultView from "./views/ResultView/ResultView";
 
 function App() {
   return (
-    <div className="container" style={{ width: "600px" }}>
-      <div className="my-3">
-        <h3>bezkoder.com</h3>
-        <h4>React Hooks File Upload</h4>
-      </div>
+    <Router>
+      <nav>
+          <ul>
+            <li>
+              <Link to="/">upload page</Link>
+            </li>
+            <li>
+              <Link to="/result">list of files</Link>
+            </li>
 
-      <FileUpload />
-    </div>
+          </ul>
+        </nav>
+
+      <Switch>
+        <Route path="/result">
+            <ResultView />
+        </Route>
+        <Route path="/">
+          <div className="container" style={{ width: "600px" }}>
+          <FileUpload />
+          </div>
+        </Route>
+
+      </Switch>
+    </Router>
+
+
   );
 }
 
