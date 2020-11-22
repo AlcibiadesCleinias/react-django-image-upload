@@ -10,12 +10,18 @@ class PostView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request, *args, **kwargs):
+
+        print(request.COOKIES)
+
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
+        request.session['AAAA'] = 'HOLA'
+        print(request.session.get('AAAA'))
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         posts_serializer = PostSerializer(data=request.data)
+        print(request.data)
         if posts_serializer.is_valid():
             posts_serializer.save()
             return Response(posts_serializer.data, status=status.HTTP_201_CREATED)

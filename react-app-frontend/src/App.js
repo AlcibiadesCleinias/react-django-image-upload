@@ -1,67 +1,48 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from "react";
 
-class App extends Component {
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-  state = {
-    title: '',
-    content: '',
-    image: null
-  };
+// import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value
-    })
-  };
+import FileUpload from "./views/UploadView/UploadView";
+import ResultView from "./views/ResultView/ResultView";
 
-  handleImageChange = (e) => {
-    this.setState({
-      image: e.target.files[0]
-    })
-  };
+function App() {
+  return (
+    <Router>
+      <nav>
+          <ul>
+            <li>
+              <Link to="/">upload page</Link>
+            </li>
+            <li>
+              <Link to="/result">list of files</Link>
+            </li>
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state);
-    let form_data = new FormData();
-    form_data.append('image', this.state.image, this.state.image.name);
-    form_data.append('title', this.state.title);
-    form_data.append('content', this.state.content);
-    let url = 'http://localhost:8000/api/posts/';
+          </ul>
+        </nav>
 
-    axios.post(url, form_data, {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }
-    })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => console.log(err))
-  };
+      <Switch>
+        <Route path="/result">
+            <ResultView />
+        </Route>
+        <Route path="/">
+          <div className="container" style={{ width: "600px" }}>
+          <FileUpload />
+          </div>
+        </Route>
 
-  render() {
-    return (
-      <div className="App">
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <input type="text" placeholder='Title' id='title' value={this.state.title} onChange={this.handleChange} required/>
-          </p>
-          <p>
-            <input type="text" placeholder='Content' id='content' value={this.state.content} onChange={this.handleChange} required/>
+      </Switch>
+    </Router>
 
-          </p>
-          <p>
-            <input type="file"
-                   id="image"
-                   accept="image/png, image/jpeg"  onChange={this.handleImageChange} required/>
-          </p>
-          <input type="submit"/>
-        </form>
-      </div>
-    );
-  }
+
+  );
 }
 
 export default App;
